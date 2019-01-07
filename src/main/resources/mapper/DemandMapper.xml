@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.DemandMapper">
+  <resultMap id="BaseResultMap" type="com.entity.Demand">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="demand_date" jdbcType="VARCHAR" property="demandDate" />
+    <result column="push_count" jdbcType="VARCHAR" property="pushCount" />
+    <result column="admitted_number" jdbcType="VARCHAR" property="admittedNumber" />
+    <result column="wait_number" jdbcType="VARCHAR" property="waitNumber" />
+    <result column="demand_gap" jdbcType="VARCHAR" property="demandGap" />
+    <result column="agent_phone" jdbcType="VARCHAR" property="agentPhone" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="demand_number" jdbcType="VARCHAR" property="demandNumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="agent" jdbcType="VARCHAR" property="agent" />
+    <result column="manager_phone" jdbcType="VARCHAR" property="managerPhone" />
+    <result column="manager" jdbcType="VARCHAR" property="manager" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="skill_code" jdbcType="VARCHAR" property="skillCode" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="vaild" jdbcType="VARCHAR" property="vaild" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="field1" jdbcType="VARCHAR" property="field1" />
+    <result column="field2" jdbcType="VARCHAR" property="field2" />
+    <result column="field3" jdbcType="VARCHAR" property="field3" />
+    <result column="field4" jdbcType="VARCHAR" property="field4" />
+    <result column="field5" jdbcType="VARCHAR" property="field5" />
+    <result column="demand_describe" jdbcType="LONGVARCHAR" property="demandDescribe" />
+
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.entity.Demand">
+
+    <result column="demand_describe" jdbcType="LONGVARCHAR" property="demandDescribe" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, demand_date, push_count, admitted_number, wait_number, demand_gap, agent_phone,
+    creator, demand_number, name, agent, manager_phone, manager, level, skill_code, state, 
+    vaild, modifier, update_time, create_time, field1, field2, field3, field4, field5
+  </sql>
+  <sql id="Blob_Column_List">
+    demand_describe
+  </sql>
+  <select id="selectAll" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from demand
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <update id="update" parameterType="com.entity.Demand">
+     update demand
+    set demand_date = #{demandDate,jdbcType=VARCHAR},
+      push_count = #{pushCount,jdbcType=VARCHAR},
+      admitted_number = #{admittedNumber,jdbcType=VARCHAR},
+      wait_number = #{waitNumber,jdbcType=VARCHAR},
+      demand_gap = #{demandGap,jdbcType=VARCHAR},
+      agent_phone = #{agentPhone,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      demand_number = #{demandNumber,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      manager_phone = #{managerPhone,jdbcType=VARCHAR},
+      manager = #{manager,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      skill_code = #{skillCode,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      vaild = #{vaild,jdbcType=VARCHAR},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      field1 = #{field1,jdbcType=VARCHAR},
+      field2 = #{field2,jdbcType=VARCHAR},
+      field3 = #{field3,jdbcType=VARCHAR},
+      field4 = #{field4,jdbcType=VARCHAR},
+      field5 = #{field5,jdbcType=VARCHAR},
+      demand_describe = #{demandDescribe,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="insert" parameterType="com.entity.Demand">
+    insert into demand (id, demand_date, push_count,
+      admitted_number, wait_number, demand_gap, 
+      agent_phone, creator, demand_number, 
+      name, agent, manager_phone, 
+      manager, level, skill_code, 
+      state, vaild, modifier, 
+      update_time, create_time, field1, 
+      field2, field3, field4, 
+      field5, demand_describe)
+    values (#{id,jdbcType=BIGINT}, #{demandDate,jdbcType=VARCHAR}, #{pushCount,jdbcType=VARCHAR}, 
+      #{admittedNumber,jdbcType=VARCHAR}, #{waitNumber,jdbcType=VARCHAR}, #{demandGap,jdbcType=VARCHAR}, 
+      #{agentPhone,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{demandNumber,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, #{managerPhone,jdbcType=VARCHAR}, 
+      #{manager,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{skillCode,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR},1, #{modifier,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{field1,jdbcType=VARCHAR}, 
+      #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}, #{field4,jdbcType=VARCHAR}, 
+      #{field5,jdbcType=VARCHAR}, #{demandDescribe,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <update id="delete" parameterType="com.entity.Demand">
+    update demand
+    vaild = 0,
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+</mapper>

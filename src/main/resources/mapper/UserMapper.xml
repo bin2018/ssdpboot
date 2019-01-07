@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.entity.User" >
+
+    <id column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="userlogin" property="userlogin" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="vaild" property="vaild" jdbcType="VARCHAR" />
+    <result column="field1" property="field1" jdbcType="VARCHAR" />
+    <result column="field2" property="field2" jdbcType="VARCHAR" />
+    <result column="field3" property="field3" jdbcType="VARCHAR" />
+    <result column="field4" property="field4" jdbcType="VARCHAR" />
+    <result column="field5" property="field5" jdbcType="VARCHAR" />
+    <association property="platformGroup" javaType="PlatformGroup" column="platform_group_code" >
+      <id property="id" column="id"></id>
+      <result property="name" column="name"></result>
+
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userid, userlogin, password, telephone, email, platform_group_code, username, creator,
+    create_time, update_time, modifier, vaild, field1, field2, field3, field4, field5
+  </sql>
+  <select id="selectUser" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from user u,platform_group p
+    where vaild =1
+    <if test="platformGroupCode != null and platformGroupCode !=''">
+      AND platform_group_code =#{platformGroupCode,jdbcType=VARCHAR}
+    </if>
+    and u.platform_group_code = p.id
+    limit #{startSize,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectUserCount" resultType="java.lang.Long" parameterType="com.entity.User" >
+    SELECT COUNT(userid) from user
+    where vaild =1
+    <if test="platformGroupCode != null and platformGroupCode !=''">
+      AND platform_group_code =#{platformGroupCode,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="login" resultType="java.lang.Integer" parameterType="com.entity.User" >
+    SELECT COUNT(userid) from user
+    where vaild =1
+    <if test="userlogin != null and userlogin !=''">
+      AND userlogin =#{userlogin,jdbcType=VARCHAR}
+    </if>
+    <if test="password != null and password !=''">
+      AND password =#{password,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where userid = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.entity.User" >
+    insert into user (userid, userlogin, password,
+      telephone, email, platform_group_code, 
+      username, creator, create_time, 
+      update_time, modifier, vaild, 
+      field1, field2, field3, 
+      field4, field5)
+    values (#{userid,jdbcType=INTEGER}, #{userlogin,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{platformGroupCode,jdbcType=VARCHAR}, 
+      #{username,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR}, #{modifier,jdbcType=VARCHAR}, 1,
+      #{field1,jdbcType=VARCHAR}, #{field2,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR}, 
+      #{field4,jdbcType=VARCHAR}, #{field5,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateUser" parameterType="com.entity.User" >
+    update user
+    <set >
+      <if test="userlogin != null" >
+        userlogin = #{userlogin,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="platformGroupCode != null" >
+        platform_group_code = #{platformGroupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="vaild != null" >
+        vaild = #{vaild,jdbcType=VARCHAR},
+      </if>
+      <if test="field1 != null" >
+        field1 = #{field1,jdbcType=VARCHAR},
+      </if>
+      <if test="field2 != null" >
+        field2 = #{field2,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null" >
+        field3 = #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null" >
+        field4 = #{field4,jdbcType=VARCHAR},
+      </if>
+      <if test="field5 != null" >
+        field5 = #{field5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="deleteUser" parameterType="com.entity.User" >
+
+    update user set vaild = 0
+    where userid = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>
